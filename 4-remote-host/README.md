@@ -4,6 +4,8 @@
 ```bash
 $ ssh-keygen -f remote-key -m PEM
 ```
+
+## Add dockerfile for remotehost
 Create remote host Dockerfile
 ```Dockerfile
 FROM ubuntu:18.04
@@ -23,5 +25,14 @@ RUN chown remote_user:remote_user -R /home/remote_user && \
     chmod 400 /home/remote_user/.ssh/authorized_keys
 
 CMD /usr/sbin/sshd -D
-
 ```
+
+## Add docker-compose.yml remote host
+add
+
+## Add Jenkins SSH Username with private key
+add
+
+## Execute shell script on remote host using ssh
+add build step
+
