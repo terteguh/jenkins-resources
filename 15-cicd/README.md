@@ -157,33 +157,112 @@
 ### 141.Build: Add script to Jenkinsfile
 1. edit Jenkinsfile
    ```sh
-        stage('Build') {
-            steps {
-                sh '''
-                    ./jenkins/build/mvn.sh mvn -B -DskipTests clean package
-                    ./jenkins/build/build.sh
-
-                '''
-            }
-
-            post {
-                success {
-                   archiveArtifacts artifacts: 'java-app/target/*.jar', fingerprint: true
-                }
-            }
-        }
+   ./jenkins/build/mvn.sh mvn -B -DskipTests clean package
+   ./jenkins/build/build.sh
    ```
 
 ## TEST
 
-
 ### 142.Test code maven and docker
-
+1. Manual code maven test
+   ```sh
+   docker run --rm -v $PWD/java-app:/app -v /root/.m2/:/root/.m2/ -w /app maven:3-alpine mvn test
+   ```
 
 ### 143.Bash script to automate test process
-
+1. Create jenkins/test directory
+   ```sh
+   mkdir jenkins/test
+   ```
 
 ### 144.Add test to jenkins file 
+1. Create jenkins/test directory
+   ```sh
+   sh './jenkins/test/mvn.sh mvn test'
+   ```
 
 
-### 145.Test code maven and docker
+### 145.Create remote VM to deploy container app
+
+## PUSH
+
+### 146. Create docker hub
+1. Create new account on dockerhub
+
+### 147. Create Repository in Docker Hub
+1. Create new repository on dockerhub
+
+### 148. Push/Pull docker images to your Repository
+1. login
+   ```sh
+   docker login
+
+   docker push tevoeh/jenkinscicd:tagname
+
+   docker tag app:2 tevoeh/jenkinscicd:2
+   ```
+
+### 149. Create Bash Script to Automate Push Process 
+1. Create jenkins/test directory
+   ```sh
+   sh './jenkins/test/mvn.sh mvn test'
+   ```
+
+### 150. add Push Script to Jenkinsfile 
+1. Create jenkins/test directory
+   ```sh
+   sh './jenkins/test/mvn.sh mvn test'
+   ```
+
+## DEPLOY
+
+### 151. Transfer Variables to Remote Machine 
+1. Create jenkins/test directory
+   ```sh
+   sh './jenkins/test/mvn.sh mvn test'
+   ```
+### 152. Deploy Application on Remote Machine Manually
+1. Create jenkins/test directory
+   ```sh
+   sh './jenkins/test/mvn.sh mvn test'
+   ```
+
+### 153. Create Deployment Script to Remote Machine
+1. Create jenkins/test directory
+   ```sh
+   sh './jenkins/test/mvn.sh mvn test'
+   ```
+
+### 154. Execute Deployment Script to Remote Machine
+1. Create jenkins/test directory
+   ```sh
+   sh './jenkins/test/mvn.sh mvn test'
+   ```
+### 155. Add Deploy Script in Remote Machine
+1. Create jenkins/test directory
+   ```sh
+   sh './jenkins/test/mvn.sh mvn test'
+   ```
+### 156. Store Script in Git Repository
+1. Create jenkins/test directory
+   ```sh
+   sh './jenkins/test/mvn.sh mvn test'
+   ```
+
+### 157. Create Jenkins Pipeline
+1. Create jenkins/test directory
+   ```sh
+   sh './jenkins/test/mvn.sh mvn test'
+   ```
+
+### 158. Modify path when mounting Docker volumes
+1. Create jenkins/test directory
+   ```sh
+   sh './jenkins/test/mvn.sh mvn test'
+   ```
+
+### 159. Create Password Registry
+1. Create jenkins/test directory
+   ```sh
+   sh './jenkins/test/mvn.sh mvn test'
+   ```

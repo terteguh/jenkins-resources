@@ -1,2 +1,2 @@
 jenkins_home/*
-
+15-cicd/pipeline/jenkins/build/*.jar
