@@ -1,2 +1,3 @@
 jenkins_home/*
 15-cicd/pipeline/jenkins/build/*.jar
+15-cicd/pipeline/jenkins/build/my-app-1.0-SNAPSHOT.jar
