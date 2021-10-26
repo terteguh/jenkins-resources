@@ -196,53 +196,91 @@
 1. login
    ```sh
    docker login
-
-   docker push tevoeh/jenkinscicd:tagname
-
    docker tag app:2 tevoeh/jenkinscicd:2
+   docker push tevoeh/jenkinscicd:$BUILD_TAG
    ```
 
 ### 149. Create Bash Script to Automate Push Process 
 1. Create jenkins/test directory
    ```sh
-   sh './jenkins/test/mvn.sh mvn test'
+   #!/bin/bash
+
+   echo "********************"
+   echo "** Pushing image ***"
+   echo "********************"
+
+   IMAGE="jenkinscicd"
+
+   echo "** Logging in ***"
+   docker login -u tevoeh -p $PASS
+   echo "*** Tagging image ***"
+   docker tag $IMAGE:$BUILD_TAG tevoeh/$IMAGE:$BUILD_TAG
+   echo "*** Pushing image ***"
+   docker push tevoeh/$IMAGE:$BUILD_TAG   
    ```
 
 ### 150. add Push Script to Jenkinsfile 
-1. Create jenkins/test directory
+1. Jenkinsfile
    ```sh
-   sh './jenkins/test/mvn.sh mvn test'
+   sh './jenkins/push/push.sh'
    ```
 
 ## DEPLOY
 
 ### 151. Transfer Variables to Remote Machine 
-1. Create jenkins/test directory
+1. Create jenkins/deploy directory
    ```sh
-   sh './jenkins/test/mvn.sh mvn test'
+   mkdir jenkins/deploy
+   ```
+
+2. Create deploy.sh
+   ```sh
+   #!/bin/bash
+
+   echo maven-project > /tmp/.auth
+   echo $BUILD_TAG >> /tmp/.auth
+   echo $PASS >> /tmp/.auth
+
+   scp -i /opt/prod /tmp/.auth prod-user@linuxfacilito.online:/tmp/.auth
+   scp -i /opt/prod ./jenkins/deploy/publish prod-user@linuxfacilito.online:/tmp/publish
+   ssh -i /opt/prod prod-user@linuxfacilito.online "/tmp/publish"
+
    ```
 ### 152. Deploy Application on Remote Machine Manually
-1. Create jenkins/test directory
+1. Create publish on remote machine
    ```sh
-   sh './jenkins/test/mvn.sh mvn test'
+   #!/bin/bash
+
+   export IMAGE=$(sed -n '1p' /tmp/.auth)
+   export TAG=$(sed -n '2p' /tmp/.auth)
+   export PASS=$(sed -n '3p' /tmp/.auth)
+
+   docker login -u ricardoandre97 -p $PASS
+   cd ~/maven && docker-compose up -d
    ```
 
 ### 153. Create Deployment Script to Remote Machine
-1. Create jenkins/test directory
+1. Create docker-compose on remote machine
    ```sh
-   sh './jenkins/test/mvn.sh mvn test'
+   version: '3'
+   services:
+   maven:
+      image: "tevoeh/$IMAGE:TAG"
+      container_name: maven-app
    ```
 
 ### 154. Execute Deployment Script to Remote Machine
-1. Create jenkins/test directory
+1. check publish file
    ```sh
-   sh './jenkins/test/mvn.sh mvn test'
+   ssh -i /opt/prod prod-user@linuxfacilito.online "/tmp/publish"
    ```
+
 ### 155. Add Deploy Script in Remote Machine
 1. Create jenkins/test directory
    ```sh
-   sh './jenkins/test/mvn.sh mvn test'
+   sh './jenkins/deploy/deploy.sh'
    ```
+
 ### 156. Store Script in Git Repository
 1. Create jenkins/test directory
    ```sh
