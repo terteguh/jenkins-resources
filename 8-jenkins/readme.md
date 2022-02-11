@@ -1,4 +1,4 @@
-# install jenkins from jenkins.io
+# install jenkins in Docker from jenkins.io
 
 ## Create a bridge network in Docker
 
